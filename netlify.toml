@@ -1,0 +1,11 @@
+# Netlify build settings (free plan). No secrets live in this file.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Next.js runtime for Netlify. Not pinned on purpose, so Netlify keeps it up to date.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

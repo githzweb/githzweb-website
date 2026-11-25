@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* githzweb tokens: see docs/DESIGN.md */
+@theme inline {
+  --color-ink: #0b0b0c;
+  --color-panel: #141416;
+  --color-line: #26262a;
+  --color-fog: #8a8a93;
+  --color-paper: #f2f1ec;
+  --color-lime: #d4ff3a;
+  --color-wa: #25d366;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bricolage);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-ink);
+}
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.font-display {
+  font-family: var(--font-bricolage);
+  letter-spacing: -0.035em;
+}
+
+/* Mono label above headings: // 01 · SERVICES */
+.label {
+  font-family: var(--font-geist-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-fog);
+}
+
+/* Faint grid texture, like graph paper behind a spec sheet */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+}
+
+/* Spec list: key ........ value */
+.spec-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.spec-row .dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--color-line);
+  transform: translateY(-4px);
+}
+
+/* Swing price tag */
+.price-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 22px;
+  background: var(--color-lime);
+  color: var(--color-ink);
+  font-family: var(--font-geist-mono);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  border-radius: 4px 999px 999px 4px;
+  transform: rotate(-2deg);
+  transition: transform 200ms ease-out;
+}
+.price-tag::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 999px;
+  background: var(--color-ink);
+}
+.group:hover .price-tag {
+  transform: rotate(0deg) scale(1.04);
+}
+
+/* Scroll reveal (set by <Reveal>) */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero blinking caret */
+@keyframes caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret {
+  animation: caret 1s steps(1) infinite;
+}
+
+/* About section: drifting fact chips */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -8px); }
+}
+.chip-drift {
+  animation: drift 6s ease-in-out infinite;
+}
+
+/* Arrow nudge on button hover */
+.arrow {
+  transition: transform 200ms ease-out;
+}
+.group:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Tab panel switch */
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [role="tabpanel"] { animation: none !important; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .caret, .chip-drift { animation: none; }
+  .price-tag, .arrow { transition: none; }
+}

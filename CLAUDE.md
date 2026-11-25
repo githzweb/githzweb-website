@@ -19,3 +19,4 @@ Next.js 16 (App Router, static pages) + TypeScript + Tailwind CSS 4, hosted on N
 - Never use the nickname "Machi" on the site: public name is Githan Raj.
 - Contact form = Netlify Forms. If you change fields in `components/ContactForm.tsx`, change `public/__forms.html` to match. The form only submits on Netlify, not on `npm run dev`.
 - Don't use the words or styles listed under "Never" in `docs/DESIGN.md`.
+- Never delete, rename or edit `public/google369fc32a9de6c8d6.html`. It proves ownership of the site to Google Search Console. `scripts/check-required-files.mjs` fails the build if it's missing or changed.

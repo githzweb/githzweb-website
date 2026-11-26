@@ -2,319 +2,281 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FinalCta } from "@/components/FinalCta";
-import { HeroSearch } from "@/components/HeroSearch";
-import { AboutGithan } from "@/components/AboutGithan";
-import { Reveal } from "@/components/Reveal";
-import { Button, Container, Label, PriceTag, WhatsAppIcon } from "@/components/ui";
+import { BrowserFrame, Button, Container, Label, Section, WhatsAppIcon } from "@/components/ui";
 import { SERVICES } from "@/content/services";
-import { SITE, waLink } from "@/content/site";
+import { hasWhatsApp, SITE, waLink } from "@/content/site";
 
-const PROBLEMS = [
-  {
-    n: "A",
-    title: "Customers can't find your products.",
-    body: "They scroll a 40-page PDF, give up, and WhatsApp a competitor whose stock they could actually see.",
-  },
-  {
-    n: "B",
-    title: "Your catalogue lives in Excel.",
-    body: "Prices and models change, but the website (if there is one) was last updated two years ago.",
-  },
-  {
-    n: "C",
-    title: "Your site is slow or stuck.",
-    body: "Built on Framer, Wix or WordPress by someone who's gone. Every change is a favour or an invoice.",
-  },
+// Real numbers from the live GNS site (Sanity, 27 Nov 2026).
+const GNS_FACTS = [
+  ["335", "products online"],
+  ["5", "product collections"],
+  ["3", "branches, JB · SG · KL"],
+  ["0", "products typed by hand"],
+];
+
+const TIMELINE = [
+  ["2025", "Laptop technician, Via Global"],
+  ["Mar–Aug 2026", "Web developer intern, GNS Commercial Equipment"],
+  ["Nov 2026", "Rebuilt gnscommercial.my, now looking after it"],
 ];
 
 const STEPS = [
-  { n: "01", title: "WhatsApp chat", body: "Tell us what you sell and how customers buy. Free, no obligation." },
-  { n: "02", title: "Quote & plan", body: "A fixed price and a simple plan of pages, features and timeline." },
-  { n: "03", title: "Build & import", body: "We build the site and import your products automatically." },
-  { n: "04", title: "Launch & care", body: "Go live on your domain. Optional monthly care keeps it fresh." },
-];
-
-const FAQ = [
   {
-    q: "How long does a catalogue website take?",
-    a: "Usually 2–4 weeks, depending on how many products you have and how ready your product list is.",
+    t: "You tell me about your business",
+    d: "A WhatsApp chat or a short call. What you sell, who your customers are, what's not working now. Free, and no pressure to go ahead.",
   },
   {
-    q: "Do I own the website?",
-    a: "Yes. The domain, the content and the code are yours. Hosting runs on your own account if you want it that way.",
+    t: "I send a fixed price",
+    d: "In writing, with the pages and features listed. If the price changes, it's because you asked for more, never a surprise invoice.",
   },
   {
-    q: "Can I update products myself?",
-    a: "Yes. Catalogue sites come with an editor where you can add products, change prices and upload photos without coding.",
+    t: "You see it before it goes live",
+    d: "I send you a link to check on your own phone. We fix what you don't like, then it goes live on your own domain.",
   },
   {
-    q: "Do you work outside Johor?",
-    a: "Yes. Everything runs over WhatsApp, email and video calls, so we work with businesses anywhere in Malaysia.",
-  },
-  {
-    q: "What does monthly care cover?",
-    a: "Hosting checks, an agreed number of product and price updates, small changes, backups and a short monthly report.",
+    t: "I stay around",
+    d: "You get a short guide to updating the site yourself. If you'd rather not, monthly care means you just WhatsApp me the change.",
   },
 ];
 
 export default function Home() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ProfessionalService",
-        name: "githzweb",
-        url: SITE.url,
-        email: SITE.email,
-        description: SITE.tagline,
-        areaServed: { "@type": "Country", name: "Malaysia" },
-        address: { "@type": "PostalAddress", addressLocality: "Johor Bahru", addressCountry: "MY" },
-        founder: { "@id": `${SITE.url}/#githan` },
-        sameAs: [SITE.github],
-      },
-      {
-        "@type": "Person",
-        "@id": `${SITE.url}/#githan`,
-        name: "Githan Raj",
-        jobTitle: "Founder & lead developer",
-        image: `${SITE.url}/img/githan-raj.jpg`,
-        sameAs: [SITE.linkedin, SITE.github],
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: FAQ.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a },
-        })),
-      },
-    ],
-  };
-
-  const [lead, ...rest] = SERVICES;
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {/* Hero: one sentence, then the real GNS site */}
+      <Container className="pt-[72px] pb-10 md:pt-28 md:pb-14">
+        <p className="mb-5 text-sm text-muted">Githan Raj · web developer in Johor Bahru</p>
+        <h1 className="h max-w-[980px] text-[clamp(34px,5.6vw,64px)]">
+          I build websites for Malaysian small businesses.{" "}
+          <span className="text-muted">
+            Fast to load, easy for you to update, and every enquiry goes straight to your WhatsApp.
+          </span>
+        </h1>
+        <div className="mt-9 flex flex-wrap gap-3">
+          {hasWhatsApp ? (
+            <Button href={waLink()}>
+              <WhatsAppIcon /> WhatsApp me
+            </Button>
+          ) : null}
+          <Button href="#work" variant="secondary">
+            See the GNS website
+          </Button>
+        </div>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div aria-hidden className="grid-bg absolute inset-0" />
-        <Container className="relative grid items-center gap-14 pt-16 pb-24 md:grid-cols-[1.15fr_0.85fr] md:pt-24 md:pb-32">
-          <div>
-            <Label>Catalogue websites · Malaysia</Label>
-            <h1 className="font-display mt-6 text-[44px] leading-[0.98] font-extrabold sm:text-6xl md:text-[84px]">
-              Your whole catalogue. <span className="text-lime">Searchable.</span>{" "}
-              <span className="text-fog">One tap to WhatsApp.</span>
-            </h1>
-            <p className="mt-7 max-w-xl text-lg text-fog md:text-xl">
-              We build fast catalogue websites for Malaysian suppliers and distributors, so customers find the right
-              product and message you about it.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button href={waLink("Hi githzweb, I'd like a catalogue website.")}>
-                <WhatsAppIcon className="h-4 w-4" /> WhatsApp us
-              </Button>
-              <Button href="/work/gns-commercial" variant="secondary">
-                See the GNS project
-              </Button>
-            </div>
+        <div className="relative mt-14">
+          <BrowserFrame address="gnscommercial.my/shop">
+            <Image
+              src="/work/gns/shop.png"
+              alt="GNS Commercial Equipment product catalogue with search and filters"
+              width={1440}
+              height={900}
+              sizes="(min-width: 1180px) 1100px, 100vw"
+              priority
+              className="h-auto w-full"
+            />
+          </BrowserFrame>
+          <div className="absolute right-1 -bottom-7 w-[34%] max-w-[230px] overflow-hidden rounded-[18px] border-4 border-[#1c1c1f] shadow-[var(--shadow)] sm:right-4 sm:-bottom-10 sm:w-[26%] sm:rounded-[26px] sm:border-[6px]">
+            <Image
+              src="/work/gns/product-phone.jpg"
+              alt="GNS product page on a phone with an Ask on WhatsApp button"
+              width={359}
+              height={777}
+              sizes="230px"
+              className="h-auto w-full"
+            />
           </div>
-          <HeroSearch />
-        </Container>
-      </section>
+        </div>
+        <div className="mt-16 flex flex-wrap justify-between gap-3 border-t border-line pt-4 text-sm text-muted">
+          <span>GNS Commercial Equipment, Johor Bahru. Live since November 2026.</span>
+          <a href="https://www.gnscommercial.my" target="_blank" rel="noopener noreferrer" className="text-fg hover:underline">
+            Visit gnscommercial.my ↗
+          </a>
+        </div>
+      </Container>
 
-      {/* Proof strip */}
-      <section aria-label="Proof from the GNS project" className="border-y border-line bg-panel/50">
-        <Container className="grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4">
-          {[
-            ["323", "products imported automatically"],
-            ["Search + filters", "across every product"],
-            ["WhatsApp", "enquiry on each product page"],
-            ["Live", "gnscommercial.my"],
-          ].map(([big, small]) => (
-            <div key={small} className="pr-4">
-              <p className="font-display text-2xl font-bold md:text-3xl">{big}</p>
-              <p className="mt-1 text-sm text-fog">{small}</p>
-            </div>
-          ))}
-        </Container>
-      </section>
-
-      {/* Problems */}
-      <section className="py-24 md:py-36">
-        <Container className="grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
-          <Reveal>
-            <Label n="01">The problem</Label>
-            <h2 className="font-display mt-4 text-4xl leading-[1.05] font-extrabold md:text-[56px]">
-              Great stock. <br />
-              <span className="text-fog">Hard to find.</span>
-            </h2>
-          </Reveal>
-          <ol className="divide-y divide-line border-y border-line">
-            {PROBLEMS.map((p, i) => (
-              <li key={p.n}>
-                <Reveal delay={i * 100} className="grid grid-cols-[48px_1fr] gap-4 py-7">
-                  <span className="font-mono text-sm text-lime">{p.n}</span>
-                  <div>
-                    <h3 className="text-xl font-semibold md:text-2xl">{p.title}</h3>
-                    <p className="mt-2 text-fog">{p.body}</p>
-                  </div>
-                </Reveal>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
-
-      {/* Services */}
-      <section className="py-12 md:py-20">
+      {/* Work: the GNS story */}
+      <Section id="work">
         <Container>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <Label n="02">Services</Label>
-              <h2 className="font-display mt-4 text-4xl font-extrabold md:text-[56px]">What we build</h2>
-            </div>
-            <Link href="/services" className="group text-fog hover:text-paper">
-              All services and prices{" "}
-              <span aria-hidden className="arrow inline-block">
-                &rarr;
-              </span>
-            </Link>
-          </div>
-
-          <div className="mt-12 grid gap-4 md:grid-cols-6">
-            {/* Lead offer: the big card */}
-            <Reveal className="md:col-span-6">
-              <Link
-                href={`/services#${lead.slug}`}
-                className="group grid gap-8 rounded-[22px] border border-line bg-panel p-7 transition-colors hover:border-lime/60 md:grid-cols-[1.2fr_1fr] md:p-10"
-              >
-                <div>
-                  <p className="font-mono text-xs tracking-widest text-fog">{lead.code} · MAIN SERVICE</p>
-                  <h3 className="font-display mt-3 text-3xl font-bold md:text-5xl">{lead.name}</h3>
-                  <p className="mt-4 max-w-lg text-fog md:text-lg">{lead.short}</p>
-                  <div className="mt-7">
-                    <PriceTag price={lead.price} />
-                  </div>
-                </div>
-                <ul className="space-y-3 self-end font-mono text-[13px]">
-                  {lead.includes.map((x) => (
-                    <li key={x} className="flex gap-3 border-b border-line pb-3 text-paper/90">
-                      <span className="text-lime">+</span>
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-              </Link>
-            </Reveal>
-            {rest.map((s, i) => (
-              <Reveal key={s.slug} delay={i * 80} className={i < 2 ? "md:col-span-3" : "md:col-span-3"}>
-                <Link
-                  href={`/services#${s.slug}`}
-                  className="group flex h-full flex-col justify-between gap-8 rounded-[22px] border border-line p-7 transition-colors hover:border-lime/60 hover:bg-panel"
-                >
-                  <div>
-                    <p className="font-mono text-xs tracking-widest text-fog">
-                      {s.code}
-                      {s.isNew ? <span className="ml-2 text-lime">· NEW</span> : null}
-                    </p>
-                    <h3 className="mt-3 text-2xl font-semibold">{s.name}</h3>
-                    <p className="mt-3 text-fog">{s.short}</p>
-                  </div>
-                  <div>
-                    <PriceTag price={s.price} note={s.priceNote} />
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* How it works */}
-      <section className="py-24 md:py-36">
-        <Container>
-          <Label n="03">How it works</Label>
-          <h2 className="font-display mt-4 max-w-2xl text-4xl font-extrabold md:text-[56px]">
-            From product list to live site in four steps.
+          <Label>Recent work</Label>
+          <h2 className="h max-w-[820px] text-[clamp(28px,4vw,44px)]">
+            GNS had 300+ products on a site that couldn&rsquo;t search them.{" "}
+            <span className="text-muted">Now customers type a model number and find it in a second.</span>
           </h2>
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-[22px] border border-line bg-line md:grid-cols-4">
-            {STEPS.map((s, i) => (
-              <li key={s.n} className="bg-ink">
-                <Reveal delay={i * 100} className="h-full p-7">
-                  <p className="font-display text-5xl font-extrabold text-lime/90">{s.n}</p>
-                  <h3 className="mt-6 text-lg font-semibold">{s.title}</h3>
-                  <p className="mt-2 text-sm text-fog">{s.body}</p>
-                </Reveal>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
-
-      {/* Featured work */}
-      <section className="py-12 md:py-20">
-        <Container>
-          <Link
-            href="/work/gns-commercial"
-            className="group grid overflow-hidden rounded-[28px] border border-line bg-panel transition-colors hover:border-lime/60 md:grid-cols-[1fr_1.15fr]"
-          >
-            <div className="flex flex-col justify-between gap-10 p-8 md:p-12">
-              <div>
-                <Label>Featured work</Label>
-                <h2 className="font-display mt-4 text-4xl font-extrabold md:text-5xl">GNS Commercial Equipment</h2>
-                <p className="mt-4 text-fog md:text-lg">
-                  A commercial kitchen equipment supplier in Johor Bahru. We moved 323 products off their old Framer
-                  site into a searchable catalogue with WhatsApp enquiries on every product.
-                </p>
-              </div>
-              <p className="font-semibold text-lime">
-                Read the case study{" "}
-                <span aria-hidden className="arrow inline-block">
-                  &rarr;
-                </span>
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+            <div className="max-w-[520px] text-body">
+              <p>
+                I joined GNS Commercial Equipment as an intern in March 2026 and built their first website on Framer.
+                It looked fine, but with over 300 fridges, freezers and kitchen machines, customers couldn&rsquo;t
+                search, and every product change meant editing pages by hand.
               </p>
+              <p className="mt-[18px]">
+                In November I rebuilt it properly. A script copied every product off the old site, so nothing was
+                retyped. Customers can now search and filter the whole catalogue, and each product has a button that
+                opens WhatsApp with the model already filled in.{" "}
+                <strong className="font-medium text-fg">The team adds new products themselves</strong>: a whole new
+                ice machine range went up without me touching the code.
+              </p>
+              <dl className="mt-7 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line">
+                {GNS_FACTS.map(([n, l]) => (
+                  <div key={l} className="bg-bg px-[18px] py-4">
+                    <dt className="sr-only">{l}</dt>
+                    <dd>
+                      <b className="block font-head text-[22px] font-semibold tracking-[-0.02em] text-fg">{n}</b>
+                      <small className="text-[13px] text-muted">{l}</small>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <Link
+                href="/work/gns-commercial"
+                className="mt-6 inline-block text-fg underline underline-offset-4 hover:text-accent"
+              >
+                Read how I built it →
+              </Link>
             </div>
-            <div className="relative min-h-[280px] overflow-hidden bg-ink md:min-h-[420px]">
+            <BrowserFrame address="gnscommercial.my/shop/…">
               <Image
-                src="/work/gns/shop.png"
-                alt="GNS Commercial Equipment product catalogue page with search and filters"
-                fill
-                sizes="(min-width: 768px) 640px, 100vw"
-                className="object-cover object-left-top transition-transform duration-700 group-hover:scale-[1.03]"
+                src="/work/gns/product.png"
+                alt="GNS product page with specifications and an Ask on WhatsApp button"
+                width={1440}
+                height={900}
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="h-auto w-full"
               />
-            </div>
-          </Link>
-        </Container>
-      </section>
-
-      <AboutGithan />
-
-      {/* FAQ */}
-      <section className="py-12 md:py-20">
-        <Container className="grid gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
-          <div>
-            <Label n="05">FAQ</Label>
-            <h2 className="font-display mt-4 text-4xl font-extrabold md:text-[56px]">Good questions.</h2>
+            </BrowserFrame>
           </div>
-          <div className="divide-y divide-line border-y border-line">
-            {FAQ.map((f) => (
-              <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-semibold [&::-webkit-details-marker]:hidden">
-                  {f.q}
-                  <span aria-hidden className="font-mono text-lime transition-transform group-open:rotate-45">
-                    +
+        </Container>
+      </Section>
+
+      {/* Services: numbered accordion */}
+      <Section id="services">
+        <Container>
+          <Label>What I can build for you</Label>
+          <h2 className="h max-w-[820px] text-[clamp(28px,4vw,44px)]">
+            Fixed prices, agreed on WhatsApp before I start.{" "}
+            <span className="text-muted">These are starting prices; you get the exact figure in writing.</span>
+          </h2>
+          <div className="mt-12 border-t border-line">
+            {SERVICES.map((s, i) => (
+              <details key={s.slug} className="svc border-b border-line" open={i === 0}>
+                <summary className="grid grid-cols-[28px_1fr] items-baseline gap-3 py-[26px] sm:grid-cols-[40px_1fr_auto]">
+                  <span className="cond text-xl text-dim">{i + 1}.</span>
+                  <span className="cond svc-title text-[clamp(24px,3.4vw,38px)]">
+                    {s.name}
+                    {s.isNew ? (
+                      <em className="ml-2.5 rounded-full border border-line px-2 py-0.5 align-middle font-sans text-xs not-italic normal-case tracking-normal text-muted">
+                        New
+                      </em>
+                    ) : null}
+                  </span>
+                  <span className="col-start-2 text-[15px] whitespace-nowrap text-muted sm:col-start-auto">
+                    <PriceText price={s.price} note={s.priceNote} />
                   </span>
                 </summary>
-                <p className="mt-3 max-w-2xl text-fog">{f.a}</p>
+                <div className="grid max-w-[900px] gap-6 pb-8 pl-10 text-body sm:pl-[52px] md:grid-cols-[1.2fr_1fr]">
+                  <p>{s.short}</p>
+                  <ul className="text-[15px]">
+                    {s.includes.slice(0, 4).map((x) => (
+                      <li key={x} className="border-b border-dashed border-line py-1.5">
+                        {x}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </details>
             ))}
           </div>
+          <Link href="/services" className="mt-7 inline-block text-fg underline underline-offset-4 hover:text-accent">
+            Full details for every service →
+          </Link>
         </Container>
-      </section>
+      </Section>
+
+      {/* About */}
+      <Section id="about">
+        <Container className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-[72px]">
+          <div className="relative aspect-[4/5] max-w-[460px] overflow-hidden rounded-[18px]">
+            <Image
+              src="/img/githan-raj.jpg"
+              alt="Githan Raj, founder of githzweb"
+              fill
+              sizes="(min-width: 1024px) 460px, 100vw"
+              className="object-cover"
+            />
+            <span className="absolute bottom-3.5 left-3.5 rounded-full bg-panel/85 px-3 py-1.5 text-[13px] backdrop-blur">
+              {SITE.location}
+            </span>
+          </div>
+          <div>
+            <Label>Who you&rsquo;ll be talking to</Label>
+            <p className="cond text-[clamp(64px,11vw,148px)] leading-[0.9]">
+              Githan
+              <br />
+              Raj
+            </p>
+            <div className="max-w-[540px] text-body">
+              <p className="mt-5">
+                I&rsquo;m doing a degree in Software Engineering at UMPSA, after a Diploma in Computer Science there,
+                and I run githzweb. There&rsquo;s no sales team: when you WhatsApp, you&rsquo;re talking to the person
+                who plans, builds and looks after your site.
+              </p>
+              <p className="mt-5">
+                Before websites I repaired laptops, 10 to 30 a week, so I&rsquo;m used to explaining tech in plain words
+                and fixing things properly the first time.
+              </p>
+            </div>
+            <dl className="mt-8 max-w-[540px] border-t border-line">
+              {TIMELINE.map(([when, what]) => (
+                <div key={when} className="grid grid-cols-[120px_1fr] gap-3 border-b border-line py-3 text-[15px]">
+                  <dt className="text-muted">{when}</dt>
+                  <dd>{what}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-6 flex flex-wrap gap-5 text-sm text-muted">
+              <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-fg">
+                LinkedIn ↗
+              </a>
+              <a href={SITE.github} target="_blank" rel="noopener noreferrer" className="hover:text-fg">
+                GitHub ↗
+              </a>
+              <Link href="/work#demos" className="hover:text-fg">
+                Live demos →
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* How it works */}
+      <Section>
+        <Container>
+          <Label>How it works</Label>
+          <h2 className="h max-w-[820px] text-[clamp(28px,4vw,44px)]">
+            Most projects go from first message to live site in two to four weeks.
+          </h2>
+          <div className="mt-10 grid gap-7 lg:grid-cols-2 lg:gap-x-[72px] lg:gap-y-12">
+            {STEPS.map((s) => (
+              <div key={s.t}>
+                <h3 className="font-head text-xl font-semibold tracking-[-0.015em]">{s.t}</h3>
+                <p className="mt-2 max-w-[480px] text-body">{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
 
       <FinalCta />
+    </>
+  );
+}
+
+function PriceText({ price, note }: { price: string; note?: string }) {
+  const m = price.match(/^from (.+)$/);
+  if (!m) return <b className="font-medium text-fg">{price}</b>;
+  return (
+    <>
+      from <b className="font-medium text-fg">{m[1]}</b>
+      {note}
     </>
   );
 }

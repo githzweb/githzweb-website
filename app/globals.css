@@ -1,151 +1,119 @@
 @import "tailwindcss";
 
-/* githzweb tokens: see docs/DESIGN.md */
+/* githzweb tokens: see docs/DESIGN.md. Every colour switches with [data-theme]. */
+:root,
+[data-theme="dark"] {
+  --bg: #0b0b0c;
+  --panel: #131315;
+  --chip: #1b1b1e;
+  --line: #232326;
+  --fg: #ededee;
+  --body: #c9c9cc;
+  --muted: #8b8b90;
+  --dim: #5d5d62;
+  --accent: #d4ff3a;
+  --headbg: rgb(11 11 12 / 0.8);
+  --grain: 0.07;
+  --shadow: 0 30px 60px rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --bg: #f6f5f1;
+  --panel: #ffffff;
+  --chip: #efeee8;
+  --line: #e2e0d8;
+  --fg: #151516;
+  --body: #3b3b3f;
+  --muted: #68686d;
+  --dim: #9b9ba0;
+  --accent: #4f6f00;
+  --headbg: rgb(246 245 241 / 0.82);
+  --grain: 0.035;
+  --shadow: 0 24px 50px rgb(0 0 0 / 0.18);
+  color-scheme: light;
+}
+
 @theme inline {
-  --color-ink: #0b0b0c;
-  --color-panel: #141416;
-  --color-line: #26262a;
-  --color-fog: #8a8a93;
-  --color-paper: #f2f1ec;
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-chip: var(--chip);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
   --color-lime: #d4ff3a;
+  --color-onlime: #0b0b0c;
   --color-wa: #25d366;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-inter);
+  --font-head: var(--font-inter-tight);
+  --font-cond: var(--font-anton);
 }
 
 html {
   scroll-behavior: smooth;
-  background: var(--color-ink);
+  background: var(--bg);
 }
 body {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--bg);
+  color: var(--fg);
+  overflow-x: clip;
+  transition: background-color 0.25s, color 0.25s;
+}
+/* Subtle grain over the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 ::selection {
   background: var(--color-lime);
-  color: var(--color-ink);
+  color: var(--color-onlime);
 }
 :focus-visible {
-  outline: 2px solid var(--color-lime);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-.font-display {
-  font-family: var(--font-bricolage);
-  letter-spacing: -0.035em;
-}
-
-/* Mono label above headings: // 01 · SERVICES */
-.label {
-  font-family: var(--font-geist-mono);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-fog);
-}
-
-/* Faint grid texture, like graph paper behind a spec sheet */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
-}
-
-/* Spec list: key ........ value */
-.spec-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.spec-row .dots {
-  flex: 1;
-  border-bottom: 1px dotted var(--color-line);
-  transform: translateY(-4px);
-}
-
-/* Swing price tag */
-.price-tag {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px 6px 22px;
-  background: var(--color-lime);
-  color: var(--color-ink);
-  font-family: var(--font-geist-mono);
+/* Headline: Inter Tight, tight tracking */
+.h {
+  font-family: var(--font-inter-tight);
   font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  border-radius: 4px 999px 999px 4px;
-  transform: rotate(-2deg);
-  transition: transform 200ms ease-out;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
 }
-.price-tag::before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  margin-top: -3px;
-  border-radius: 999px;
-  background: var(--color-ink);
-}
-.group:hover .price-tag {
-  transform: rotate(0deg) scale(1.04);
+/* Condensed accent: service names, numbers, the big name */
+.cond {
+  font-family: var(--font-anton);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  font-weight: 400;
 }
 
-/* Scroll reveal (set by <Reveal>) */
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 600ms ease-out, transform 600ms ease-out;
+/* Home services accordion */
+details.svc > summary {
+  list-style: none;
+  cursor: pointer;
 }
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+details.svc > summary::-webkit-details-marker {
+  display: none;
 }
-
-/* Hero blinking caret */
-@keyframes caret {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-.caret {
-  animation: caret 1s steps(1) infinite;
-}
-
-/* About section: drifting fact chips */
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(0, -8px); }
-}
-.chip-drift {
-  animation: drift 6s ease-in-out infinite;
-}
-
-/* Arrow nudge on button hover */
-.arrow {
-  transition: transform 200ms ease-out;
-}
-.group:hover .arrow {
-  transform: translateX(4px);
-}
-
-/* Tab panel switch */
-@keyframes fadein {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
+details.svc[open] .svc-title {
+  color: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  [role="tabpanel"] { animation: none !important; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .caret, .chip-drift { animation: none; }
-  .price-tag, .arrow { transition: none; }
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    transition: none;
+  }
 }

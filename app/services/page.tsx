@@ -1,138 +1,116 @@
 import type { Metadata } from "next";
 
 import { FinalCta } from "@/components/FinalCta";
-import { Reveal } from "@/components/Reveal";
-import { Button, Container, Label, PriceTag, WhatsAppIcon } from "@/components/ui";
+import { Button, Container, Label, WhatsAppIcon } from "@/components/ui";
 import { SERVICES } from "@/content/services";
-import { SITE, waLink } from "@/content/site";
+import { hasWhatsApp, waLink } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Services & Prices: Catalogue Websites, Rebuilds, SEO",
+  title: "Services & Prices: Business Websites, Catalogues, Google Setup",
   description:
-    "Catalogue websites from RM1,800, website rebuilds from RM1,200, Google & SEO setup from RM350, and monthly care from RM150. Malaysian suppliers and distributors.",
+    "Business websites from RM900, catalogue websites from RM1,800, website moves from RM1,200, Google setup from RM350 and monthly care from RM150. Fixed prices agreed before work starts.",
   alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": SERVICES.map((s) => ({
-      "@type": "Service",
-      name: s.name,
-      description: s.short,
-      provider: { "@type": "ProfessionalService", name: "githzweb", url: SITE.url },
-      areaServed: { "@type": "Country", name: "Malaysia" },
-    })),
-  };
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="relative overflow-hidden">
-        <div aria-hidden className="grid-bg absolute inset-0" />
-        <Container className="relative pt-16 pb-16 md:pt-24 md:pb-20">
-          <Label>Services & prices</Label>
-          <h1 className="font-display mt-6 max-w-4xl text-5xl leading-[0.98] font-extrabold md:text-[80px]">
-            Clear prices. <span className="text-fog">No surprises.</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-fog">
-            Every price is a starting point. The final quote depends on how many products you have and which features
-            you need, and you get it in writing after a free WhatsApp chat.
-          </p>
-          <nav aria-label="Services on this page" className="mt-10 flex flex-wrap gap-2">
-            {SERVICES.map((s) => (
-              <a
-                key={s.slug}
-                href={`#${s.slug}`}
-                className="rounded-full border border-line px-4 py-2 font-mono text-xs tracking-wider uppercase text-fog transition-colors hover:border-lime hover:text-lime"
-              >
-                {s.code} · {s.name}
-              </a>
-            ))}
-          </nav>
-        </Container>
-      </section>
-
-      <Container className="space-y-5 py-10">
-        {SERVICES.map((s) => (
-          <Reveal key={s.slug}>
-            <article
-              id={s.slug}
-              className={`group scroll-mt-24 rounded-[24px] border p-7 md:p-10 ${
-                s.featured ? "border-lime/50 bg-panel" : "border-line"
-              }`}
+      <Container className="pt-[72px] pb-12 md:pt-28 md:pb-16">
+        <Label>Services &amp; prices</Label>
+        <h1 className="h max-w-[960px] text-[clamp(34px,5.4vw,60px)]">
+          Clear prices, agreed before I start.{" "}
+          <span className="text-muted">
+            Every price here is a starting point. You get the exact figure in writing after a free WhatsApp chat.
+          </span>
+        </h1>
+        <nav aria-label="Services on this page" className="mt-8 flex flex-wrap gap-2">
+          {SERVICES.map((s) => (
+            <a
+              key={s.slug}
+              href={`#${s.slug}`}
+              className="rounded-full border border-line px-3.5 py-2 text-sm text-muted transition-colors hover:border-muted hover:text-fg"
             >
-              <div className="flex flex-wrap items-start justify-between gap-6">
-                <div>
-                  <p className="font-mono text-xs tracking-widest text-fog">
-                    {s.code}
-                    {s.featured ? <span className="ml-2 text-lime">· MAIN SERVICE</span> : null}
-                    {s.isNew ? <span className="ml-2 text-lime">· NEW</span> : null}
-                  </p>
-                  <h2 className="font-display mt-3 text-3xl font-bold md:text-5xl">{s.name}</h2>
-                  <p className="mt-3 max-w-2xl text-fog md:text-lg">{s.short}</p>
-                </div>
-                <PriceTag price={s.price} note={s.priceNote} />
-              </div>
+              {s.name}
+            </a>
+          ))}
+        </nav>
+      </Container>
 
-              <div className="mt-10 grid gap-8 md:grid-cols-3">
-                <div>
-                  <p className="label mb-3">Who it&rsquo;s for</p>
-                  <p className="text-paper/90">{s.forWho}</p>
-                </div>
-                <div>
-                  <p className="label mb-3">What&rsquo;s included</p>
-                  <ul className="space-y-2">
-                    {s.includes.map((x) => (
-                      <li key={x} className="flex gap-3 text-paper/90">
-                        <span className="font-mono text-lime">+</span>
-                        {x}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="label mb-3">What you provide</p>
-                  <ul className="space-y-2">
-                    {s.youProvide.map((x) => (
-                      <li key={x} className="flex gap-3 text-fog">
-                        <span className="font-mono">&ndash;</span>
-                        {x}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+      {SERVICES.map((s, i) => (
+        <div key={s.slug} id={s.slug} className="scroll-mt-20 border-t border-line py-14 md:py-[72px]">
+          <Container>
+            <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-[18px] gap-y-1.5">
+              <span className="cond text-[clamp(22px,3vw,32px)] text-dim">{i + 1}.</span>
+              <h2 className="cond text-[clamp(34px,5.4vw,64px)]">
+                {s.name}
+                {s.isNew ? (
+                  <span className="ml-2.5 rounded-full border border-line px-2 py-0.5 align-middle font-sans text-xs tracking-normal normal-case text-muted">
+                    New
+                  </span>
+                ) : null}
+              </h2>
+              <p className="col-start-2 mt-1.5 max-w-[640px] text-lg text-muted">{s.short}</p>
+              <p className="col-start-2 mt-3.5 font-head text-[22px] font-semibold tracking-[-0.02em]">
+                {s.price}
+                {s.priceNote ? <small className="ml-1.5 font-sans text-sm font-normal text-muted">{s.priceNote}</small> : null}
+              </p>
+            </div>
 
-              <div className="mt-10 flex flex-wrap gap-3 border-t border-line pt-7">
-                <Button href={waLink(`Hi githzweb, I'm interested in: ${s.name}.`)}>
-                  <WhatsAppIcon className="h-4 w-4" /> Ask about this
+            <div className="mt-10 grid gap-7 md:grid-cols-[1fr_1.3fr_1fr] md:gap-10 md:pl-[calc(18px+1.6em)]">
+              <div>
+                <h3 className="mb-3 text-[13px] font-medium text-muted">Who it&rsquo;s for</h3>
+                <p className="text-[15px] text-body">{s.forWho}</p>
+              </div>
+              <div>
+                <h3 className="mb-3 text-[13px] font-medium text-muted">What&rsquo;s included</h3>
+                <ul className="text-[15px] text-body">
+                  {s.includes.map((x) => (
+                    <li key={x} className="border-b border-dashed border-line py-2 first:pt-0">
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-3 text-[13px] font-medium text-muted">What you provide</h3>
+                <ul className="text-[15px] text-body">
+                  {s.youProvide.map((x) => (
+                    <li key={x} className="border-b border-dashed border-line py-2 first:pt-0">
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-9 flex flex-wrap items-center gap-2.5 md:pl-[calc(18px+1.6em)]">
+              {hasWhatsApp ? (
+                <Button href={waLink(`Hi Githan, I'd like to ask about: ${s.name}`)} className="h-[42px] px-[18px] text-sm">
+                  <WhatsAppIcon /> Ask on WhatsApp
                 </Button>
-                <Button href={`/contact?service=${s.slug}`} variant="secondary">
-                  Send an enquiry
-                </Button>
+              ) : null}
+              <Button href={`/contact?service=${s.slug}#form`} variant="secondary" className="h-[42px] px-[18px] text-sm">
+                Send an enquiry
+              </Button>
+              {s.demo ? (
                 <a
                   href={s.demo.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full px-3 py-3 text-[15px] font-semibold text-lime hover:underline"
+                  className="inline-flex h-[42px] items-center px-1.5 text-sm text-muted hover:text-fg"
                 >
-                  {s.demo.label}
-                  <span aria-hidden className="arrow">
-                    &#8599;
-                  </span>
+                  {s.demo.label} ↗
                 </a>
-              </div>
-            </article>
-          </Reveal>
-        ))}
-        <p className="pt-4 text-sm text-fog">
-          Prices in Malaysian Ringgit. Domain names and paid third-party tools (if any are needed) are quoted
-          separately, and we always try free options first.
-        </p>
-      </Container>
+              ) : null}
+            </div>
+          </Container>
+        </div>
+      ))}
 
-      <FinalCta />
+      <FinalCta
+        title="Not sure which one you need?"
+        text="Tell me what your business does and what's not working. I'll suggest the simplest option, even if that's the cheapest one."
+      />
     </>
   );
 }

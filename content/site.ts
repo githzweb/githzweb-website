@@ -3,7 +3,7 @@
 export const SITE = {
   name: "githzweb",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://githzweb.netlify.app",
-  tagline: "Catalogue websites for Malaysian suppliers and distributors.",
+  tagline: "Websites for Malaysian small businesses, built and looked after by Githan Raj.",
   email: "githzweb@gmail.com",
   // WhatsApp number in international format, digits only (010-887 0776 -> 60108870776).
   // If it's ever emptied, every WhatsApp button sends people to the contact page instead.
@@ -15,14 +15,14 @@ export const SITE = {
 } as const;
 
 export const NAV = [
-  { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
+  { href: "/services", label: "Services" },
   { href: "/#about", label: "About" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
 /** WhatsApp click-to-chat link with a pre-filled message, or the contact page if no number is set yet. */
-export function waLink(message = "Hi githzweb, I'd like to ask about a website.") {
+export function waLink(message = "Hi Githan, I'd like to ask about a website.") {
   const digits = SITE.whatsapp.replace(/\D/g, "");
   if (!digits) return "/contact";
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;

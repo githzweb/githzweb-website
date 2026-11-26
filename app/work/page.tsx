@@ -3,106 +3,106 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FinalCta } from "@/components/FinalCta";
-import { Container, Label } from "@/components/ui";
+import { BrowserFrame, Container, Label, Section } from "@/components/ui";
 import { SERVICES } from "@/content/services";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Websites built by githzweb, including the GNS Commercial Equipment catalogue (323 products).",
+  description:
+    "Websites built by Githan Raj (githzweb), including the GNS Commercial Equipment catalogue (335 products), plus live demos of every service.",
   alternates: { canonical: "/work" },
 };
 
 export default function WorkPage() {
+  const demos = SERVICES.filter((s) => s.demo);
   return (
     <>
-      <Container className="pt-16 pb-10 md:pt-24">
+      <Container className="pt-[72px] pb-12 md:pt-28 md:pb-16">
         <Label>Work</Label>
-        <h1 className="font-display mt-6 max-w-4xl text-5xl leading-[0.98] font-extrabold md:text-[80px]">
-          Real projects. <span className="text-fog">Real products.</span>
+        <h1 className="h max-w-[960px] text-[clamp(34px,5.4vw,60px)]">
+          One client so far, and it&rsquo;s real.{" "}
+          <span className="text-muted">
+            I&rsquo;m just starting out, so instead of a long list, here&rsquo;s one project in detail and live demos
+            of everything else I offer.
+          </span>
         </h1>
-        <p className="mt-6 max-w-2xl text-lg text-fog">
-          We&rsquo;re a young studio, so the client list is short: every project on it is real and live. Below it, live demos of all five services.
-        </p>
       </Container>
 
-      <Container className="grid gap-5 py-10 md:grid-cols-2">
-        <Link
-          href="/work/gns-commercial"
-          className="group overflow-hidden rounded-[24px] border border-line bg-panel transition-colors hover:border-lime/60 md:col-span-2 md:grid md:grid-cols-[1.2fr_1fr]"
-        >
-          <div className="relative aspect-[16/10] overflow-hidden bg-ink md:aspect-auto md:min-h-[440px]">
-            <Image
-              src="/work/gns/home.png"
-              alt="GNS Commercial Equipment homepage"
-              fill
-              sizes="(min-width: 768px) 660px, 100vw"
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-            />
-          </div>
-          <div className="flex flex-col justify-between gap-8 p-8 md:p-10">
-            <div>
-              <p className="font-mono text-xs tracking-widest text-fog">CASE 01 · NOV 2026</p>
-              <h2 className="font-display mt-3 text-3xl font-bold md:text-4xl">GNS Commercial Equipment</h2>
-              <p className="mt-3 text-fog">
-                Catalogue website for a commercial kitchen equipment supplier in Johor Bahru: 323 products, search,
-                filters and WhatsApp enquiries.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {["Catalogue website", "Migration from Framer", "Google setup"].map((t) => (
-                  <span key={t} className="rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-fog">
-                    {t}
-                  </span>
-                ))}
-              </div>
+      <Section className="!pt-14 md:!pt-[72px]">
+        <Container>
+          <Link
+            href="/work/gns-commercial"
+            className="group grid overflow-hidden rounded-[20px] border border-line bg-panel transition-colors hover:border-muted lg:grid-cols-[1.2fr_1fr]"
+          >
+            <div className="relative aspect-[16/10] overflow-hidden bg-chip lg:aspect-auto lg:min-h-[420px]">
+              <Image
+                src="/work/gns/home.png"
+                alt="GNS Commercial Equipment homepage"
+                fill
+                sizes="(min-width: 1024px) 640px, 100vw"
+                className="object-cover object-top"
+              />
             </div>
-            <p className="font-semibold text-lime">
-              Read the case study{" "}
-              <span aria-hidden className="arrow inline-block">
-                &rarr;
-              </span>
-            </p>
-          </div>
-        </Link>
+            <div className="flex flex-col justify-between gap-8 p-7 md:p-10">
+              <div>
+                <p className="text-sm text-muted">Johor Bahru · November 2026</p>
+                <h2 className="h mt-3 text-3xl md:text-4xl">GNS Commercial Equipment</h2>
+                <p className="mt-3 text-body">
+                  A catalogue website for a commercial kitchen and retail equipment supplier: 335 products with search,
+                  filters and a WhatsApp button on every product.
+                </p>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {["Catalogue website", "Moved from Framer", "Google setup"].map((t) => (
+                    <li key={t} className="rounded-full border border-line px-3 py-1 text-xs text-muted">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p className="font-medium underline underline-offset-4 group-hover:text-accent">Read how I built it →</p>
+            </div>
+          </Link>
+        </Container>
+      </Section>
 
-        <div className="md:col-span-2">
-          <p className="mt-10 font-mono text-xs tracking-widest text-fog">LIVE DEMOS</p>
-          <h2 className="font-display mt-3 text-3xl font-extrabold md:text-4xl">Try every service yourself</h2>
-          <p className="mt-3 max-w-2xl text-fog">
-            We built a complete website for a made-up supplier, Demo Hardware Co., so you can click through exactly
-            what you&rsquo;d get. The company is fictional; the website and tools are real.
-          </p>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((s) => (
+      <Section id="demos">
+        <Container>
+          <Label>Live demos</Label>
+          <h2 className="h max-w-[820px] text-[clamp(28px,4vw,44px)]">
+            Try what you&rsquo;d get.{" "}
+            <span className="text-muted">
+              I built a full website for a made-up supplier, Demo Hardware Co. The company is fictional; the website
+              and tools are real.
+            </span>
+          </h2>
+          <ul className="mt-12 border-t border-line">
+            {demos.map((s, i) => (
               <li key={s.slug}>
                 <a
-                  href={s.demo.href}
+                  href={s.demo!.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex h-full flex-col justify-between gap-6 rounded-[20px] border border-line p-6 transition-colors hover:border-lime/60 hover:bg-panel"
+                  className="group grid grid-cols-[28px_1fr] items-baseline gap-3 border-b border-line py-6 sm:grid-cols-[40px_1fr_auto]"
                 >
-                  <div>
-                    <p className="font-mono text-[11px] tracking-widest text-fog">{s.code}</p>
-                    <p className="mt-2 text-lg font-semibold">{s.name}</p>
-                  </div>
-                  <p className="font-semibold text-lime">
-                    {s.demo.label}{" "}
-                    <span aria-hidden className="arrow inline-block">
-                      &#8599;
-                    </span>
-                  </p>
+                  <span className="cond text-xl text-dim">{i + 1}.</span>
+                  <span className="cond text-[clamp(22px,3vw,34px)] group-hover:text-accent">{s.name}</span>
+                  <span className="col-start-2 text-sm text-muted group-hover:text-fg sm:col-start-auto">
+                    {s.demo!.label} ↗
+                  </span>
                 </a>
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex min-h-[160px] flex-col justify-center rounded-[24px] border border-dashed border-line p-8">
-            <p className="font-mono text-xs tracking-widest text-fog">CASE 02</p>
-            <p className="font-display mt-3 text-2xl font-bold">This spot is for your business.</p>
-            <p className="mt-2 max-w-lg text-fog">
-              Have a big product list and a site that doesn&rsquo;t show it off? Let&rsquo;s talk.
-            </p>
-          </div>
-        </div>
-      </Container>
+          <BrowserFrame address="your-business.com.my" className="mt-12">
+            <div className="flex min-h-[180px] flex-col justify-center p-8 md:p-10">
+              <p className="h text-2xl md:text-3xl">This spot is for your business.</p>
+              <p className="mt-2 max-w-lg text-muted">
+                Have a business that deserves a better website? <Link href="/contact" className="text-fg underline underline-offset-4">Let&rsquo;s talk.</Link>
+              </p>
+            </div>
+          </BrowserFrame>
+        </Container>
+      </Section>
 
       <FinalCta />
     </>

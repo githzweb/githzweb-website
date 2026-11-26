@@ -1,43 +1,30 @@
-import Link from "next/link";
+import { hasWhatsApp, SITE, waLink } from "@/content/site";
 
-import { waLink } from "@/content/site";
+import { Button, Container, Section, WhatsAppIcon } from "./ui";
 
-import { Container, WhatsAppIcon } from "./ui";
-
-export function FinalCta() {
+export function FinalCta({
+  title = "Tell me about your business.",
+  text = "What you do, and what you want the website to do for you. I usually reply the same day.",
+}: {
+  title?: string;
+  text?: string;
+}) {
   return (
-    <section className="py-16 md:py-24">
+    <Section>
       <Container>
-        <div className="relative overflow-hidden rounded-[28px] bg-lime p-8 text-ink md:p-14">
-          <p className="font-mono text-xs tracking-widest uppercase">{"// Next step"}</p>
-          <h2 className="font-display mt-4 max-w-3xl text-4xl leading-[1.02] font-extrabold md:text-6xl">
-            Tell us about your product list.
-          </h2>
-          <p className="mt-4 max-w-xl text-ink/75 md:text-lg">
-            How many products, where they live now, how customers buy. We&rsquo;ll reply with a plan and a price.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href={waLink("Hi githzweb, here's a bit about my product list:")}
-              className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-semibold text-paper"
-            >
-              <WhatsAppIcon className="h-4 w-4" /> WhatsApp us{" "}
-              <span aria-hidden className="arrow">
-                &rarr;
-              </span>
-            </Link>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full border border-ink/30 px-5 py-3 font-semibold hover:bg-ink/5"
-            >
-              Send the form{" "}
-              <span aria-hidden className="arrow">
-                &rarr;
-              </span>
-            </Link>
-          </div>
+        <h2 className="h text-[clamp(40px,7vw,88px)]">{title}</h2>
+        <p className="mt-[18px] max-w-[560px] text-lg text-muted">{text}</p>
+        <div className="mt-9 flex flex-wrap items-center gap-3">
+          {hasWhatsApp ? (
+            <Button href={waLink()}>
+              <WhatsAppIcon /> WhatsApp {SITE.whatsappDisplay}
+            </Button>
+          ) : null}
+          <Button href="/contact#form" variant="secondary">
+            Send a message
+          </Button>
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

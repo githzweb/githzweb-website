@@ -28,8 +28,15 @@ export const metadata: Metadata = {
     "business website Johor",
     "website rebuild Malaysia",
   ],
-  openGraph: { siteName: "githzweb", locale: "en_MY", type: "website" },
-  twitter: { card: "summary_large_image" },
+  // Share preview (WhatsApp, Telegram, Facebook…): a real screenshot of the homepage hero.
+  // Re-take it with a headless browser at 1200x630 if the hero changes.
+  openGraph: {
+    siteName: "githzweb",
+    locale: "en_MY",
+    type: "website",
+    images: [{ url: "/og-home.jpg", width: 1200, height: 630, alt: "githzweb homepage: I build websites for Malaysian small businesses" }],
+  },
+  twitter: { card: "summary_large_image", images: ["/og-home.jpg"] },
 };
 
 // Sets the theme before the first paint: saved choice first, otherwise the device setting.

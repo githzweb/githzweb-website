@@ -1,15 +1,19 @@
 # githzweb website
 
-The company website for **githzweb**: fast catalogue websites for Malaysian suppliers and distributors.
+The website for **githzweb**: Githan Raj builds websites for Malaysian small businesses, from simple business sites to full product catalogues, with every enquiry going straight to WhatsApp.
 
 **Live:** https://githzweb.netlify.app
 
 ## What's in it
-- **Home:** a live demo catalogue search that types and filters by itself (visitors can type too), services with "from RM" price tags, process, featured work, an interactive About section (3D tilt photo card, tabs, timeline) and FAQ
-- **Services:** five services with starting prices and pre-filled WhatsApp/enquiry buttons
-- **Case study:** [GNS Commercial Equipment](https://www.gnscommercial.my), 323 products moved from Framer into a searchable Next.js + Sanity catalogue
-- **Contact:** Netlify Forms enquiry form (honeypot spam protection) and WhatsApp click-to-chat
-- **SEO:** per-page metadata, sitemap, robots, JSON-LD (ProfessionalService, Person, Service, FAQPage), generated share-preview image
+- **Home:** the live GNS site as the hero (real screenshots, not mock-ups), the GNS story, a numbered services accordion with starting prices, About, and how a project runs
+- **Services:** six services (business website from RM900, catalogue website from RM1,800, website moves, Google setup, monthly care, automation), each with who it's for, what's included, what the client provides, and a link to a live demo
+- **Work:** the [GNS Commercial Equipment](https://www.gnscommercial.my) case study (335 products, 5 collections, 3 branches) and live demos on [Demo Hardware Co.](https://demo-hardware-githzweb.pages.dev)
+- **Contact:** Netlify Forms enquiry form (honeypot spam protection), WhatsApp click-to-chat, service pre-selected from the Services page
+- **Dark and light themes:** follows the device setting, remembers the visitor's choice, no flash on load
+- **SEO:** per-page metadata, sitemap, robots, and a real homepage screenshot as the share preview
+
+## Design
+Quiet and personal: Inter Tight headlines, Anton for condensed accents, real work instead of decoration, first-person writing. The rules are in [`docs/DESIGN.md`](docs/DESIGN.md).
 
 ## Stack
 Next.js 16 (App Router, fully static) · TypeScript · Tailwind CSS 4 · Netlify (free plan). Content lives in `content/` (no CMS needed for a site this size).

@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { FinalCta } from "@/components/FinalCta";
 import { Container, Label } from "@/components/ui";
+import { SERVICES } from "@/content/services";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -20,7 +21,7 @@ export default function WorkPage() {
           Real projects. <span className="text-fog">Real products.</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-fog">
-          We&rsquo;re a young studio, so the list is short, and every project on it is real and live.
+          We&rsquo;re a young studio, so the client list is short: every project on it is real and live. Below it, live demos of all five services.
         </p>
       </Container>
 
@@ -63,12 +64,43 @@ export default function WorkPage() {
           </div>
         </Link>
 
-        <div className="flex min-h-[220px] flex-col justify-center rounded-[24px] border border-dashed border-line p-8 md:col-span-2">
-          <p className="font-mono text-xs tracking-widest text-fog">CASE 02</p>
-          <p className="font-display mt-3 text-2xl font-bold">This spot is for your business.</p>
-          <p className="mt-2 max-w-lg text-fog">
-            Have a big product list and a site that doesn&rsquo;t show it off? Let&rsquo;s talk.
+        <div className="md:col-span-2">
+          <p className="mt-10 font-mono text-xs tracking-widest text-fog">LIVE DEMOS</p>
+          <h2 className="font-display mt-3 text-3xl font-extrabold md:text-4xl">Try every service yourself</h2>
+          <p className="mt-3 max-w-2xl text-fog">
+            We built a complete website for a made-up supplier, Demo Hardware Co., so you can click through exactly
+            what you&rsquo;d get. The company is fictional; the website and tools are real.
           </p>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.map((s) => (
+              <li key={s.slug}>
+                <a
+                  href={s.demo.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-full flex-col justify-between gap-6 rounded-[20px] border border-line p-6 transition-colors hover:border-lime/60 hover:bg-panel"
+                >
+                  <div>
+                    <p className="font-mono text-[11px] tracking-widest text-fog">{s.code}</p>
+                    <p className="mt-2 text-lg font-semibold">{s.name}</p>
+                  </div>
+                  <p className="font-semibold text-lime">
+                    {s.demo.label}{" "}
+                    <span aria-hidden className="arrow inline-block">
+                      &#8599;
+                    </span>
+                  </p>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex min-h-[160px] flex-col justify-center rounded-[24px] border border-dashed border-line p-8">
+            <p className="font-mono text-xs tracking-widest text-fog">CASE 02</p>
+            <p className="font-display mt-3 text-2xl font-bold">This spot is for your business.</p>
+            <p className="mt-2 max-w-lg text-fog">
+              Have a big product list and a site that doesn&rsquo;t show it off? Let&rsquo;s talk.
+            </p>
+          </div>
         </div>
       </Container>
 

@@ -111,6 +111,17 @@ export default function ServicesPage() {
                 <Button href={`/contact?service=${s.slug}`} variant="secondary">
                   Send an enquiry
                 </Button>
+                <a
+                  href={s.demo.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-full px-3 py-3 text-[15px] font-semibold text-lime hover:underline"
+                >
+                  {s.demo.label}
+                  <span aria-hidden className="arrow">
+                    &#8599;
+                  </span>
+                </a>
               </div>
             </article>
           </Reveal>

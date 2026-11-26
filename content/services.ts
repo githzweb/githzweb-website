@@ -12,12 +12,17 @@ export type Service = {
   youProvide: string[];
   isNew?: boolean;
   featured?: boolean;
+  /** Live demo on the Demo Hardware Co. site (a fictional shop githzweb built to show its services). */
+  demo: { href: string; label: string };
 };
+
+export const DEMO_SITE = "https://demo-hardware-githzweb.pages.dev";
 
 export const SERVICES: Service[] = [
   {
     code: "SVC-01",
     slug: "catalogue-websites",
+    demo: { href: `${DEMO_SITE}/`, label: "Try the demo catalogue" },
     name: "Catalogue websites",
     short: "Your full product list online: searchable, filterable, with a WhatsApp enquiry button on every product.",
     price: "from RM1,800",
@@ -36,6 +41,7 @@ export const SERVICES: Service[] = [
   {
     code: "SVC-02",
     slug: "rebuilds",
+    demo: { href: `${DEMO_SITE}/rebuild`, label: "See the before & after" },
     name: "Website rebuild & migration",
     short: "Move off Framer, Wix or WordPress to a fast site you own, with your content and products copied over automatically.",
     price: "from RM1,200",
@@ -51,6 +57,7 @@ export const SERVICES: Service[] = [
   {
     code: "SVC-03",
     slug: "google-seo",
+    demo: { href: `${DEMO_SITE}/seo-report`, label: "See a sample SEO audit" },
     name: "Google & SEO setup",
     short: "Get found on Google: Search Console, sitemap, share previews and the basics done properly.",
     price: "from RM350",
@@ -66,6 +73,7 @@ export const SERVICES: Service[] = [
   {
     code: "SVC-04",
     slug: "website-care",
+    demo: { href: `${DEMO_SITE}/care-report`, label: "See a sample care report" },
     name: "Monthly website care",
     short: "We look after the site so you don't have to: updates, product changes, backups, and a monthly report.",
     price: "from RM150",
@@ -82,6 +90,7 @@ export const SERVICES: Service[] = [
   {
     code: "SVC-05",
     slug: "ai-automation",
+    demo: { href: `${DEMO_SITE}/tools`, label: "Try the automation tools" },
     name: "AI automation",
     short: "Let software do the repetitive work: enquiry replies, product data clean-up, quotes and follow-ups.",
     price: "Ask for a quote",
